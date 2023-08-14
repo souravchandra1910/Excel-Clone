@@ -1,4 +1,4 @@
-// blur vs focus event listen
+// blur vs focus eventlistener
 for(let i=0;i<rows;i++){
     for(let j=0;j<cols;j++){
         let cell = document.querySelector(`.cell[rid="${i}"][cid="${j}"]`);
@@ -21,7 +21,7 @@ for(let i=0;i<rows;i++){
 }
 
 let formulaBar = document.querySelector(".formula-bar");
-formulaBar.addEventListener("keydown", (e) => {
+formulaBar.addEventListener("keydown", async (e) => {
     let inputFormula = formulaBar.value;
     if (e.key === "Enter" && inputFormula) {
 
@@ -32,9 +32,16 @@ formulaBar.addEventListener("keydown", (e) => {
         addChildToGraphComponent(inputFormula, address);
        
         // console.log(graphComponentMatrix);
-        let cycle = isCyclic(graphComponentMatrix);
-        if (cycle === true) {
-            alert("Your formula is cyclic");
+        let cycleResponse = isCyclic(graphComponentMatrix);
+        if (cycleResponse) {
+            console.log(cycleResponse[0]+"    "+cycleResponse[1]);
+            // alert("Your formula is cyclic");
+             let response=confirm("Your formula is Cyclic . Do You want to trace your path ?");
+             while(response === true){
+                // keep on tracking jab tak cancel na karo
+                await isCyclicTracePath(graphComponentMatrix,cycleResponse);
+                response=confirm("Your formula is Cyclic . Do You want to trace your path ?");
+             }
             removeChildFromGraphComponent(inputFormula, address);
             return;
         }

@@ -31,12 +31,12 @@ function isCyclic(graphComponentMatrix) {
        let ans= dfsCycleDG(graphComponentMatrix,i,j,visited,pathVisited);
        if(ans===true){
         console.log("there is cycle");
-        return true
+        return [i,j];
        }
       }
     }
   } 
-  return false;
+  return null;
 }
 
 function dfsCycleDG(graphComponentMatrix,sr,sc,visited,pathVisited) {
